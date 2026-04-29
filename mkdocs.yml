@@ -1,0 +1,100 @@
+site_name: Cleiton Sena · Public Wiki
+site_url: https://cleitonsena.github.io/
+site_description: Building Soilytix AI agent dept in public — concepts, architecture, lessons.
+site_author: Cleiton Sena
+repo_url: https://github.com/cleitonsena/cleitonsena.github.io
+repo_name: cleitonsena/cleitonsena.github.io
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Concepts:
+      - Agent Management Architecture: concepts/agent-management-architecture.md
+      - Thin Harness, Fat Skills: concepts/thin-harness-fat-skills.md
+      - AI-Native Company: concepts/ai-native-company.md
+      - 20x Companies: concepts/20x-companies.md
+  - Tech:
+      - Reporting Agent V3 Spec: tech/reporting-agent-v3.md
+  - Tools:
+      - g-stack (Garry Tan): tools/g-stack.md
+  - People:
+      - Garry Tan: people/garry-tan.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/cleitonsena
+      name: GitHub
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/cleitonsenaes
+      name: X (Twitter)
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/cleitonsena
+      name: LinkedIn
+  generator: false
+
+copyright: >
+  © 2026 Cleiton Sena · Content under
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
