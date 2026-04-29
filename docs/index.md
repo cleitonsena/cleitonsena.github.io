@@ -7,9 +7,13 @@ hide:
 
 # Cleiton Sena — Public Wiki
 
-Head of Revenue at [Soilytix](https://soilytix.com) — building an AI agent department in public to run revenue ops at an early-stage EU agritech SaaS.
+**AI-Native Revenue Architect · Fractional · B2B SaaS**
 
-This wiki is the public-safe subset of my internal "second brain" (Karpathy pattern). What's here is the part that's safe + interesting to share. The Soilytix-confidential parts (pipeline, pricing, customer specifics) stay private.
+I design and build AI agent departments for B2B SaaS revenue teams. Currently fractional at [Soilytix](https://soilytix.com) — running revenue ops + building the agent system that automates them, on a managed-SaaS-only stack (Anthropic + Gemini + Langfuse). EU agritech soil intelligence. €0→€600k ARR plan.
+
+**Soilytix is one client + my live case study.** I have capacity for 1-2 additional B2B SaaS engagements. If you're building or scaling a revenue function and want to add an AI agent layer, [let's talk](https://github.com/cleitonsena).
+
+This wiki is the public-safe subset of my internal "second brain" (Karpathy pattern). What's here is what's safe + interesting to share. The Soilytix-confidential parts (pipeline, pricing, customer specifics) stay private.
 
 ---
 
@@ -51,10 +55,21 @@ This wiki is the public-safe subset of my internal "second brain" (Karpathy patt
 
 ## What you'll see here over the next 6 months
 
-- **May 2026** — Reporting Agent V3 ships. Build-in-public LinkedIn weekly Friday + Substack bi-weekly Sun.
+- **May 2026** — Reporting Agent V3 ships at Soilytix. Build-in-public LinkedIn weekly Friday + Substack bi-weekly Sun.
 - **Jun 2026** — Phase 2 starts. Reply Triage Agent + Lead Enrichment Agent if Phase 1 quality gates pass.
-- **Jul 2026** — Wiki public excerpt 3-month milestone. Speaking gigs (DLG, agritech meetups, AI conferences EU).
-- **Set-Out 2026** — 6-8 agent department production. Framework abstracted + open-sourced as separate repo. 1-2 keynote talks / podcasts.
+- **Jul 2026** — 3-month milestone. Speaking gigs (DLG, agritech meetups, AI conferences EU). Open for 1-2 additional fractional engagements.
+- **Set-Out 2026** — 6-8 agent department production at Soilytix. Framework abstracted + open-sourced as separate repo. 1-2 keynote talks / podcasts.
+
+## Work with me
+
+Currently engaged 3 days/week with Soilytix. Capacity for **1-2 additional B2B SaaS fractional engagements** (typically 2 days/week, 60-90 day initial scope). Best fit:
+
+- B2B SaaS post-PMF, scaling revenue ops
+- Want to add an AI agent layer (not "AI tools") to revenue function
+- EU residency / GDPR compliance matters
+- Have ICP clarity — execution is the gap, not strategy
+
+Reach out: [github.com/cleitonsena](https://github.com/cleitonsena) or [@cleitonsenaes on X](https://x.com/cleitonsenaes).
 
 ---
 

@@ -1,6 +1,8 @@
 # cleitonsena.github.io
 
-Public wiki for [Cleiton Sena](https://github.com/cleitonsena) — concepts, architecture decisions, and lessons from building [Soilytix](https://soilytix.com)'s AI agent department in public.
+Public wiki for [Cleiton Sena](https://github.com/cleitonsena) — **AI-Native Revenue Architect (Fractional · B2B SaaS)**.
+
+Concepts, architecture decisions, and lessons from designing AI agent departments for B2B SaaS revenue teams. [Soilytix](https://soilytix.com) is the live case study. Capacity for 1-2 additional fractional engagements.
 
 **Live:** https://cleitonsena.github.io/
 
