@@ -1,0 +1,1948 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Building Soilytix AI agent dept in public — concepts, architecture, lessons.">
+      
+      
+        <meta name="author" content="Cleiton Sena">
+      
+      
+        <link rel="canonical" href="https://cleitonsena.github.io/tools/g-stack/">
+      
+      
+        <link rel="prev" href="../../tech/reporting-agent-v3/">
+      
+      
+        <link rel="next" href="../../people/garry-tan/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>gstack - Cleiton Sena · Public Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gstack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cleiton Sena · Public Wiki" class="md-header__button md-logo" aria-label="Cleiton Sena · Public Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cleiton Sena · Public Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              gstack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cleitonsena/cleitonsena.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cleitonsena/cleitonsena.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cleiton Sena · Public Wiki" class="md-nav__button md-logo" aria-label="Cleiton Sena · Public Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cleiton Sena · Public Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cleitonsena/cleitonsena.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cleitonsena/cleitonsena.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/agent-management-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Management Architecture
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--planning reference for May 2026 Phase 1 build + Jun 2026 Phase 2 trigger"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/thin-harness-fat-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thin Harness, Fat Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/ai-native-company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Native Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/20x-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20x Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tech
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tech/reporting-agent-v3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting Agent V3 Spec
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--SPEC v2 — Phase 1 self-funded approved (Decision"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    g-stack (Garry Tan)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--Active (Apr 2026, 85.8k+ stars rapidamente)"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    g-stack (Garry Tan)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--Active (Apr 2026, 85.8k+ stars rapidamente)"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skills-inventariadas-40-seleccao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skills inventariadas (40+) — selecção
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Skills inventariadas (40+) — selecção">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discovery-ideacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery / ideação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa-ship" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QA / Ship
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meta-housekeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meta / housekeeping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-skill-estrela-office-hours-6-forcing-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A skill estrela: /office-hours — 6 Forcing Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A skill estrela: /office-hours — 6 Forcing Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operating-principles-nao-negociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating principles (não-negociáveis)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-sycophancy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-sycophancy rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as-6-forcing-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As 6 forcing questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-routing-nao-precisas-das-6-sempre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart routing (não precisas das 6 sempre)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushback-patterns-5-examples-no-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushback patterns (5 examples no repo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapted-for-soilytix-3-candidate-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🌱 Adapted for Soilytix — 3 candidate skills
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌱 Adapted for Soilytix — 3 candidate skills">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#icp-stress-test-priority-1-may-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /icp-stress-test (priority 1, May 2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blog-icp-fit-check-priority-2-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /blog-icp-fit-check (priority 2, May)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cold-email-pushback-priority-3-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /cold-email-pushback (priority 3, May)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conductor-multi-worktree-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conductor — multi-worktree manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparacao-com-nosso-stack-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparação com nosso stack actual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-para-adoptar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Considerações para adoptar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accao-concreta-para-cleiton-todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acção concreta para Cleiton (TODO)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    People
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    People
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../people/garry-tan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Garry Tan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skills-inventariadas-40-seleccao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skills inventariadas (40+) — selecção
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Skills inventariadas (40+) — selecção">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discovery-ideacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery / ideação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa-ship" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QA / Ship
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meta-housekeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meta / housekeeping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-skill-estrela-office-hours-6-forcing-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A skill estrela: /office-hours — 6 Forcing Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A skill estrela: /office-hours — 6 Forcing Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operating-principles-nao-negociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating principles (não-negociáveis)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-sycophancy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-sycophancy rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as-6-forcing-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As 6 forcing questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-routing-nao-precisas-das-6-sempre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart routing (não precisas das 6 sempre)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushback-patterns-5-examples-no-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushback patterns (5 examples no repo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapted-for-soilytix-3-candidate-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🌱 Adapted for Soilytix — 3 candidate skills
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌱 Adapted for Soilytix — 3 candidate skills">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#icp-stress-test-priority-1-may-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /icp-stress-test (priority 1, May 2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blog-icp-fit-check-priority-2-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /blog-icp-fit-check (priority 2, May)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cold-email-pushback-priority-3-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /cold-email-pushback (priority 3, May)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conductor-multi-worktree-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conductor — multi-worktree manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparacao-com-nosso-stack-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparação com nosso stack actual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-para-adoptar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Considerações para adoptar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accao-concreta-para-cleiton-todo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acção concreta para Cleiton (TODO)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/cleitonsena/cleitonsena.github.io/edit/main/docs/tools/g-stack.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="gstack">gstack<a class="headerlink" href="#gstack" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Open-source set de <strong>40+ skills/commands</strong> que transforma Claude Code numa AI engineering team. Implementação do pattern <strong>"Thin Harness, Fat Skills"</strong> — scaffolding mínimo, skills especializadas que fazem o heavy lifting.</p>
+<p><strong>Repo oficial:</strong> <a href="https://github.com/garrytan/gstack"><code>github.com/garrytan/gstack</code></a> (sem hífen)
+<strong>Repo companheiro:</strong> <a href="https://github.com/garrytan/gbrain"><code>github.com/garrytan/gbrain</code></a> — cross-machine memory layer</p>
+</blockquote>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<p>Em vez de tentar tornar Claude Code mais inteligente via prompts complexos, gstack dá-lhe <strong>uma equipa de especialistas</strong> (skills) que ele invoca por etapa. Cada skill é o destilado de práticas reais — ex: <code>office-hours</code> é destilada de milhares de horas dos 16 partners YC fazendo office hours com fundadores.</p>
+<h2 id="skills-inventariadas-40-seleccao">Skills inventariadas (40+) — selecção<a class="headerlink" href="#skills-inventariadas-40-seleccao" title="Permanent link">&para;</a></h2>
+<h3 id="discovery-ideacao">Discovery / ideação<a class="headerlink" href="#discovery-ideacao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>/office-hours</code></strong></td>
+<td>YC Office Hours simulado. <strong>6 forcing questions</strong> em modo startup OU brainstorming em modo builder. Ver detalhe abaixo.</td>
+</tr>
+<tr>
+<td><code>/autoplan</code></td>
+<td>Pipeline completa: CEO + eng + design + DevX review com defaults do Garry.</td>
+</tr>
+<tr>
+<td><code>/plan-ceo-review</code></td>
+<td>Stage isolada de CEO review (estratégia + scope).</td>
+</tr>
+<tr>
+<td><code>/plan-eng-review</code></td>
+<td>Stage de engineering review (architecture + feasibility).</td>
+</tr>
+<tr>
+<td><code>/plan-design-review</code></td>
+<td>Stage de design review.</td>
+</tr>
+<tr>
+<td><code>/devex-review</code></td>
+<td>DevX-specific review.</td>
+</tr>
+<tr>
+<td><code>/cso</code></td>
+<td>"Chief Strategy Officer" — strategic decisions.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/design</code></td>
+<td>Design exploration.</td>
+</tr>
+<tr>
+<td><code>/design-shotgun</code></td>
+<td>Visual brainstorming — 3 variants em ~60s via OpenAI Codex (image gen). User pica vencedor.</td>
+</tr>
+<tr>
+<td><code>/design-html</code></td>
+<td>HTML-specific design generation.</td>
+</tr>
+<tr>
+<td><code>/design-consultation</code></td>
+<td>Consultative mode.</td>
+</tr>
+<tr>
+<td><code>/design-review</code></td>
+<td>Visual polish review.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/pair-agent</code></td>
+<td>Agent pairing para tasks complexas.</td>
+</tr>
+<tr>
+<td><code>/codex</code></td>
+<td>Codex-specific invocation (para "autistic CTO" debug heavy).</td>
+</tr>
+<tr>
+<td><code>/openclaw</code></td>
+<td>OpenClaw spawn — sub-sessions auto-orchestradas.</td>
+</tr>
+<tr>
+<td><code>/freeze</code></td>
+<td>Freeze a snapshot do estado.</td>
+</tr>
+<tr>
+<td><code>/careful</code></td>
+<td>Careful mode — extra adversarial review.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="qa-ship">QA / Ship<a class="headerlink" href="#qa-ship" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/browse</code></td>
+<td>Wrapped Playwright + Chromium CLI. Headed + headless. Substitui Chrome MCP.</td>
+</tr>
+<tr>
+<td><code>/qa</code> (não no listing root mas referenciado)</td>
+<td>Regression test wrapping <code>/browse</code>.</td>
+</tr>
+<tr>
+<td><code>/canary</code></td>
+<td>Canary deployment / verification.</td>
+</tr>
+<tr>
+<td><code>/health</code></td>
+<td>Health check do projecto.</td>
+</tr>
+<tr>
+<td><code>/investigate</code></td>
+<td>Bug investigation.</td>
+</tr>
+<tr>
+<td><code>/learn</code></td>
+<td>Captura learnings em jsonl per-project.</td>
+</tr>
+<tr>
+<td><code>/document-release</code></td>
+<td>Release documentation.</td>
+</tr>
+<tr>
+<td><code>/land-and-deploy</code></td>
+<td>Final land + deploy.</td>
+</tr>
+<tr>
+<td><code>/landing-report</code></td>
+<td>Post-land report.</td>
+</tr>
+<tr>
+<td><code>/guard</code></td>
+<td>Pre-action safety guard.</td>
+</tr>
+<tr>
+<td><code>/benchmark</code></td>
+<td>Benchmark performance.</td>
+</tr>
+<tr>
+<td><code>/benchmark-models</code></td>
+<td>Compare model outputs.</td>
+</tr>
+<tr>
+<td><code>/context-save</code></td>
+<td>Save context (handoff).</td>
+</tr>
+<tr>
+<td><code>/context-restore</code></td>
+<td>Resume context next session.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="meta-housekeeping">Meta / housekeeping<a class="headerlink" href="#meta-housekeeping" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/gstack-upgrade</code></td>
+<td>Self-update gstack.</td>
+</tr>
+<tr>
+<td><code>/model-overlays</code></td>
+<td>Per-model behavioral patches (claude / codex).</td>
+</tr>
+<tr>
+<td><code>/extension</code></td>
+<td>Extension system.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-skill-estrela-office-hours-6-forcing-questions">A skill estrela: <code>/office-hours</code> — 6 Forcing Questions<a class="headerlink" href="#a-skill-estrela-office-hours-6-forcing-questions" title="Permanent link">&para;</a></h2>
+<p>Ver dump completo na <a href="https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md">SKILL.md no repo</a>. Resumo do core:</p>
+<h3 id="operating-principles-nao-negociaveis">Operating principles (não-negociáveis)<a class="headerlink" href="#operating-principles-nao-negociaveis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Specificity is the only currency</strong> — "enterprises in healthcare" não é cliente</li>
+<li><strong>Interest is not demand</strong> — waitlists, "interesting" não contam; <strong>dinheiro conta, pânico quando partes contam</strong></li>
+<li><strong>The user's words beat the founder's pitch</strong></li>
+<li><strong>Watch, don't demo</strong> — sentar atrás do user e morder a língua</li>
+<li><strong>The status quo is the real competitor</strong> — não outras startups</li>
+<li><strong>Narrow beats wide, early</strong></li>
+</ul>
+<h3 id="anti-sycophancy-rules">Anti-sycophancy rules<a class="headerlink" href="#anti-sycophancy-rules" title="Permanent link">&para;</a></h3>
+<p><strong>NUNCA</strong> dizer durante diagnóstico:
+- "That's interesting"
+- "There are many ways to think about this"
+- "You might want to consider..."
+- "That could work"
+- "I can see why you'd think that"</p>
+<p><strong>SEMPRE</strong> tomar posição em cada resposta + dizer que evidência mudaria a tua opinião.</p>
+<h3 id="as-6-forcing-questions">As 6 forcing questions<a class="headerlink" href="#as-6-forcing-questions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Q</th>
+<th>Tema</th>
+<th>Pergunta core</th>
+<th>Push até ouvir</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q1</strong></td>
+<td>Demand Reality</td>
+<td>"Strongest evidence someone wants this — não 'interested', não signed-up — alguém genuinamente furioso se desaparecer amanhã?"</td>
+<td>Behaviour específico: pagamento, expansion, alguém que entra em pânico se cair</td>
+</tr>
+<tr>
+<td><strong>Q2</strong></td>
+<td>Status Quo</td>
+<td>"What are users doing right now to solve this — even badly? What does workaround cost them?"</td>
+<td>Workflow específico, hours, $$$, tools duct-taped</td>
+</tr>
+<tr>
+<td><strong>Q3</strong></td>
+<td>Desperate Specificity</td>
+<td>"Name the actual human. Title. What gets them promoted? Fired? Keeps them up at night?"</td>
+<td>Nome. Cargo. Consequência específica que ouviste da boca da pessoa</td>
+</tr>
+<tr>
+<td><strong>Q4</strong></td>
+<td>Narrowest Wedge</td>
+<td>"Smallest possible version someone would pay real money for — esta semana, não depois do platform"</td>
+<td>1 feature. 1 workflow. Email semanal. Algo shippable em dias</td>
+</tr>
+<tr>
+<td><strong>Q5</strong></td>
+<td>Observation &amp; Surprise</td>
+<td>"Já te sentaste a ver alguém usar isto sem ajudar? What surprised you?"</td>
+<td>Surpresa específica. User a fazer algo que contradiz tuas suposições</td>
+</tr>
+<tr>
+<td><strong>Q6</strong></td>
+<td>Future-Fit</td>
+<td>"Se o mundo for diferente em 3 anos, o teu produto vira mais ou menos essencial?"</td>
+<td>Claim específico sobre como o mundo dos users muda</td>
+</tr>
+</tbody>
+</table>
+<h3 id="smart-routing-nao-precisas-das-6-sempre">Smart routing (não precisas das 6 sempre)<a class="headerlink" href="#smart-routing-nao-precisas-das-6-sempre" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pre-product</strong> → Q1, Q2, Q3</li>
+<li><strong>Has users</strong> → Q2, Q4, Q5</li>
+<li><strong>Has paying customers</strong> → Q4, Q5, Q6</li>
+<li><strong>Pure engineering/infra</strong> → Q2, Q4 only</li>
+</ul>
+<h3 id="pushback-patterns-5-examples-no-repo">Pushback patterns (5 examples no repo)<a class="headerlink" href="#pushback-patterns-5-examples-no-repo" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Vague market → force specificity</li>
+<li>Social proof → demand test</li>
+<li>Platform vision → wedge challenge</li>
+<li>Growth stats → vision test</li>
+<li>Undefined terms → precision demand</li>
+</ol>
+<hr />
+<h2 id="adapted-for-soilytix-3-candidate-skills">🌱 Adapted for Soilytix — 3 candidate skills<a class="headerlink" href="#adapted-for-soilytix-3-candidate-skills" title="Permanent link">&para;</a></h2>
+<p>Baseado em ler o office-hours real, eis <strong>3 adaptations</strong> para o nosso contexto GTM/operacional:</p>
+<h3 id="icp-stress-test-priority-1-may-2026"><code>/icp-stress-test</code> (priority 1, May 2026)<a class="headerlink" href="#icp-stress-test-priority-1-may-2026" title="Permanent link">&para;</a></h3>
+<p>Adapt office-hours para <strong>Soilytix ICP discovery / re-validation</strong> — estamos meio do ICP shift (Forestry/Gov vs Seed Co), forcing questions ajudam a calibrar:</p>
+<table>
+<thead>
+<tr>
+<th>Q</th>
+<th>Pergunta adaptada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>"Que evidência específica temos que [segmento] genuinamente precisa de soil intelligence — não 'interested in pilot', mas closed deals + return purchases?"</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>"O que farmers/foresters [segmento] fazem hoje sem nós? Que workaround usam? Que custo (€/ha, hours/season) tem?"</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>"Nome o decisor. Cargo. Que consequência ele sofre se solo dele continuar misurated?"</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>"Qual é o menor ticket que um cliente [segmento] paga ESTA SEMANA? €1k single-sample? Subscription Soil Essentials?"</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>"Sentaste-te com 1 cliente a interpretar relatório? Que pergunta surpreendente fez?"</td>
+</tr>
+<tr>
+<td>Q6</td>
+<td>"EUDR + Soil Monitoring Law em 3 anos torna soil microbiome platform mais ou menos essencial? Por quê?"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output:</strong> ICP fitness score 0-10 + assignment concreto (ex: "interview 3 Coillte foresters next week").</p>
+<h3 id="blog-icp-fit-check-priority-2-may"><code>/blog-icp-fit-check</code> (priority 2, May)<a class="headerlink" href="#blog-icp-fit-check-priority-2-may" title="Permanent link">&para;</a></h3>
+<p>Adapt para <strong>gating de blog content antes de Franziska review</strong>, usando lessons da feedback dela 27 Apr ("AI-written, fundamental inaccuracies").</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Mode: technical-content review
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Persona: skeptical agronomy/microbiology reviewer (Matthias proxy)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Forcing questions:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Q1 — Specificity: &quot;Cada claim científico tem citation? Or framing &#39;studies suggest&#39;?&quot;
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Q2 — Anti-fabrication: &quot;Há números? Onde vêm? São do nosso LUCAS dataset n=11,338 ou inventados?&quot;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Q3 — Audience match: &quot;Que agronomista 50-500ha lê isto e pensa &#39;isto não é para mim&#39;?&quot;
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Q4 — Wedge: &quot;Qual é o ONE takeaway prático que o leitor faz different segunda-feira?&quot;
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Q5 — AI tells: &quot;Frases como &#39;In today&#39;s world&#39;, &#39;crucial&#39;, &#39;comprehensive&#39;, &#39;fundamental&#39;? Replace.&quot;
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Q6 — Differentiator: &quot;Que post existente no Soil Health Tools / DSMZ blog cobre isto melhor? Por que ler nosso?&quot;
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Output: Pass/fail + line-by-line edits + score 0-10.
+</span></code></pre></div>
+<p>Bate com a feedback estrutural do Franzi: <strong>science-team-first</strong>, antes de Cleiton publicar nada.</p>
+<h3 id="cold-email-pushback-priority-3-may"><code>/cold-email-pushback</code> (priority 3, May)<a class="headerlink" href="#cold-email-pushback-priority-3-may" title="Permanent link">&para;</a></h3>
+<p>Adapt para <strong>adversarial review de outreach copy</strong> antes de bombardear prospects — protege a nossa Resend reputation + previne queimar contactos cold como o W3 LinkedIn.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Mode: cold-email red-team
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Persona: skeptical busy decision-maker (Alessia Lenders proxy)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Forcing questions:
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Q1 — Trigger reason: &quot;Why now? Por que mando isto a esta pessoa hoje, não daqui a 6 meses?&quot;
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Q2 — Status quo: &quot;O que ela está a usar? Por que isto é melhor que ignorar?&quot;
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Q3 — Specific consequence: &quot;Que dor específica ela tem que isto resolve? Não &#39;soil intelligence&#39; — pain real.&quot;
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Q4 — Wedge: &quot;Qual é o pedido smallest? 15 min call? Send 1 sample? Não &#39;meet to discuss&#39;.&quot;
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Q5 — Anti-pattern: &quot;Há &#39;I hope this finds you well&#39;? &#39;Quick question&#39;? &#39;Just checking in&#39;? Replace ou cut.&quot;
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Q6 — Reply test: &quot;Se ela responder com 1 frase &#39;sounds good&#39;, qual é o follow-up automático?&quot;
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Output: Edit suggestions + pass/fail + reply-rate prediction.
+</span></code></pre></div>
+<p><strong>Validation:</strong> Apply estes a 5 BD prospects da pipeline antes de Tue first-LIVE send. Se &gt;= 4/5 pass, ship; senão revise.</p>
+<hr />
+<h2 id="conductor-multi-worktree-manager">Conductor — multi-worktree manager<a class="headerlink" href="#conductor-multi-worktree-manager" title="Permanent link">&para;</a></h2>
+<p>Tool separada (mesmo ecosystem). Permite correr <strong>10-15 sessões Claude Code em paralelo</strong> cross multiple projects. 3-4 sessões podem estar no mesmo project, em parallel branches. Click <code>+</code> cria nova worktree para nova ideia/bug/feature.</p>
+<p>Built-in support para gstack (clica gstack ao iniciar, dropa direto em office-hours).</p>
+<h2 id="comparacao-com-nosso-stack-actual">Comparação com nosso stack actual<a class="headerlink" href="#comparacao-com-nosso-stack-actual" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>Soilytix actual</th>
+<th>gstack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spec/process framework</td>
+<td>BMAD + GSD + Spec Kit (parcial)</td>
+<td>gstack 40+ skills</td>
+</tr>
+<tr>
+<td>Multi-session orchestration</td>
+<td>Manual (várias terminais Claude Code abertas)</td>
+<td>Conductor (worktree-aware)</td>
+</tr>
+<tr>
+<td>Browser automation</td>
+<td>Não temos ainda</td>
+<td><code>/browse</code> + <code>/qa</code> Playwright wrap</td>
+</tr>
+<tr>
+<td>Adversarial review</td>
+<td>Manual (Cleiton revê)</td>
+<td>Skill explícita <code>/careful</code> + 6 forcing Qs</td>
+</tr>
+<tr>
+<td>Cross-machine memory</td>
+<td>Notion + auto-memory <code>~/.claude/</code></td>
+<td>gbrain (private repo + sync)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="consideracoes-para-adoptar">Considerações para adoptar<a class="headerlink" href="#consideracoes-para-adoptar" title="Permanent link">&para;</a></h2>
+<p><strong>Pros:</strong>
+- Pattern "Thin Harness, Fat Skills" valida o que estamos a fazer com SDD
+- 3 candidate skills above (icp-stress-test, blog-icp-fit-check, cold-email-pushback) são <strong>production-ready adaptations</strong> a partir do que li
+- Office-hours anti-sycophancy rules <strong>diretamente aplicáveis</strong> a Cleiton ↔ Claude (Cleiton tende a aceitar respostas optimistas demais)</p>
+<p><strong>Cons:</strong>
+- Foco do Garry é software dev — adapt para nosso GTM/operacional precisa trabalho
+- gstack tem MUITO plumbing (telemetry, gbrain sync, upgrade prompts) — adopting full = noise
+- Stack já cheia (BMAD, GSD, Spec Kit) — risco de proliferation</p>
+<p><strong>Recomendação revista (Apr 28):</strong>
+1. <strong>Adoptar pattern + writing voice</strong> (anti-sycophancy + "Voice" rules em <code>../tools/g-stack.md</code> SKILL.md preamble) — copy SAS-CC instructions
+2. <strong>Construir 1 skill nossa</strong>: <code>/icp-stress-test</code> em May, baseada no template de office-hours mas Soilytix-specific
+3. <strong>NÃO adoptar full gstack vendoring</strong> — too much plumbing
+4. <strong>Conductor para parallel sessions</strong>: revisitar depois Reporting Agent V3 ship</p>
+<h2 id="accao-concreta-para-cleiton-todo">Acção concreta para Cleiton (TODO)<a class="headerlink" href="#accao-concreta-para-cleiton-todo" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Verificar repo handle → confirmed <code>garrytan/gstack</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Ler <code>office-hours/SKILL.md</code> (lido + síntese acima)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Aplicar <strong>anti-sycophancy rules</strong> ao SOI-CONSTITUTION (tickets descrevem isto?)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> May 2026: implementar <code>/icp-stress-test</code> baseado no template office-hours</li>
+</ul>
+<h2 id="cross-links">Cross-links<a class="headerlink" href="#cross-links" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Pessoa: <a href="../../people/garry-tan/"><code>../people/garry-tan.md</code></a></li>
+<li>Concept: <a href="../../concepts/thin-harness-fat-skills/"><code>../concepts/thin-harness-fat-skills.md</code></a></li>
+<li>Concept relacionado: <a href="../../concepts/ai-native-company/"><code>../concepts/ai-native-company.md</code></a></li>
+<li>Concept relacionado: <a href="../../concepts/20x-companies/"><code>../concepts/20x-companies.md</code></a></li>
+<li>Related tool: <a href="claude-code.md"><code>https://docs.claude.com/en/docs/claude-code/overview</code></a></li>
+<li>SDD context: Notion <a href="https://www.notion.so/34bf18407014818481bae5bb6b164fea">SOI-CONSTITUTION-00</a></li>
+</ul>
+<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=wkv2ifxPpF8">YouTube — Garry Tan, Apr 2026</a> — transcript: <code>knowledge/tech/2026-04-28-how-to-make-claude-code-your-ai-engineering-team.md</code></li>
+<li><a href="https://github.com/garrytan/gstack">gstack repo</a> — explored Apr 28</li>
+<li><a href="https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md">gstack/office-hours/SKILL.md</a> — 6 forcing questions canonical reference</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Cleiton Sena · Content under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/cleitonsena" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://x.com/cleitonsenaes" target="_blank" rel="noopener" title="X (Twitter)" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://linkedin.com/in/cleitonsena" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

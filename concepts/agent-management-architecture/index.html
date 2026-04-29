@@ -1,0 +1,2274 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Building Soilytix AI agent dept in public — concepts, architecture, lessons.">
+      
+      
+        <meta name="author" content="Cleiton Sena">
+      
+      
+        <link rel="canonical" href="https://cleitonsena.github.io/concepts/agent-management-architecture/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../thin-harness-fat-skills/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Agent Management Architecture — Soilytix + Personal - Cleiton Sena · Public Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#agent-management-architecture-soilytix-personal" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cleiton Sena · Public Wiki" class="md-header__button md-logo" aria-label="Cleiton Sena · Public Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cleiton Sena · Public Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Agent Management Architecture — Soilytix + Personal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cleitonsena/cleitonsena.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cleitonsena/cleitonsena.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cleiton Sena · Public Wiki" class="md-nav__button md-logo" aria-label="Cleiton Sena · Public Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cleiton Sena · Public Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cleitonsena/cleitonsena.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cleitonsena/cleitonsena.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Management Architecture
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--planning reference for May 2026 Phase 1 build + Jun 2026 Phase 2 trigger"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Management Architecture
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--planning reference for May 2026 Phase 1 build + Jun 2026 Phase 2 trigger"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-8-layers-de-agent-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧬 Os 8 layers de agent management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soilytix-track-multi-stakeholder-gdpr-revenue-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🌱 Soilytix track — multi-stakeholder, GDPR, revenue-critical
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌱 Soilytix track — multi-stakeholder, GDPR, revenue-critical">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraints-unicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints únicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stack-final-managed-only-apr-2026-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stack final (managed-only, Apr 2026 decision)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-design-bruno-friendly-q1-results-driven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output design — Bruno-friendly (Q1: results-driven)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-phase-timeline-compressed-apr-2026-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-phase timeline (compressed Apr 2026 decision)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#personal-track-solo-exploratorio-memory-rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Personal track — solo, exploratório, memory-rich
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Personal track — solo, exploratório, memory-rich">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraints-unicos-vs-soilytix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints únicos vs Soilytix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asset-escondido-xquads-squads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asset escondido — xquads-squads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stack-por-layer-personal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stack por layer — Personal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-concreta-personal-proximas-4-semanas-post-soilytix-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action concreta Personal (próximas 4 semanas, post-Soilytix Phase 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primitives-partilhados-build-once-use-both" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤝 Primitives partilhados — build once, use both
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-stack-3-systems-naturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Documentation stack — 3 systems naturais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-considered-rejected-apr-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Tools considered + rejected (Apr 2026)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❌ Tools considered + rejected (Apr 2026)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cursor-cursorcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor (cursor.com)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paperclip-papercliping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paperclip (paperclip.ing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multica-multicaai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multica (multica.ai)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-linearapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear (linear.app)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bedrock-agentcore-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bedrock AgentCore (AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microsoft-copilot-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microsoft Copilot Studio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-agent-builder-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI Agent Builder / Swarm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-3-actions-to-start-immediately-may-wk-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 First 3 actions to start IMMEDIATELY (May Wk 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 First 3 actions to start IMMEDIATELY (May Wk 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-setup-langfuse-cloud-account-eu-region-15-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Setup Langfuse Cloud account EU region (15 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-setup-google-ai-studio-free-tier-gemini-api-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Setup Google AI Studio free tier Gemini API (10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-decide-narrative-cadence-10-min-mental-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decide narrative cadence (10 min mental + commitment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reality-check-honesto-q5-success-em-6-meses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Reality check honesto — Q5 success em 6 meses
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-safety-nao-lock-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔓 Migration safety — não lock-in
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-uncertain-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤔 What's uncertain (open questions)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thin-harness-fat-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thin Harness, Fat Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-native-company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Native Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20x-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20x Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tech
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tech/reporting-agent-v3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting Agent V3 Spec
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--SPEC v2 — Phase 1 self-funded approved (Decision"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/g-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    g-stack (Garry Tan)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--Active (Apr 2026, 85.8k+ stars rapidamente)"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    People
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    People
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../people/garry-tan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Garry Tan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-8-layers-de-agent-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧬 Os 8 layers de agent management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soilytix-track-multi-stakeholder-gdpr-revenue-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🌱 Soilytix track — multi-stakeholder, GDPR, revenue-critical
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌱 Soilytix track — multi-stakeholder, GDPR, revenue-critical">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraints-unicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints únicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stack-final-managed-only-apr-2026-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stack final (managed-only, Apr 2026 decision)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-design-bruno-friendly-q1-results-driven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output design — Bruno-friendly (Q1: results-driven)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-phase-timeline-compressed-apr-2026-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-phase timeline (compressed Apr 2026 decision)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#personal-track-solo-exploratorio-memory-rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Personal track — solo, exploratório, memory-rich
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Personal track — solo, exploratório, memory-rich">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraints-unicos-vs-soilytix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints únicos vs Soilytix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asset-escondido-xquads-squads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asset escondido — xquads-squads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stack-por-layer-personal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stack por layer — Personal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-concreta-personal-proximas-4-semanas-post-soilytix-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action concreta Personal (próximas 4 semanas, post-Soilytix Phase 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primitives-partilhados-build-once-use-both" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤝 Primitives partilhados — build once, use both
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-stack-3-systems-naturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Documentation stack — 3 systems naturais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-considered-rejected-apr-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Tools considered + rejected (Apr 2026)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❌ Tools considered + rejected (Apr 2026)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cursor-cursorcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor (cursor.com)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paperclip-papercliping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paperclip (paperclip.ing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multica-multicaai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multica (multica.ai)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-linearapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear (linear.app)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bedrock-agentcore-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bedrock AgentCore (AWS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microsoft-copilot-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microsoft Copilot Studio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-agent-builder-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI Agent Builder / Swarm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-3-actions-to-start-immediately-may-wk-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 First 3 actions to start IMMEDIATELY (May Wk 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 First 3 actions to start IMMEDIATELY (May Wk 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-setup-langfuse-cloud-account-eu-region-15-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Setup Langfuse Cloud account EU region (15 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-setup-google-ai-studio-free-tier-gemini-api-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Setup Google AI Studio free tier Gemini API (10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-decide-narrative-cadence-10-min-mental-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decide narrative cadence (10 min mental + commitment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reality-check-honesto-q5-success-em-6-meses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Reality check honesto — Q5 success em 6 meses
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-safety-nao-lock-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔓 Migration safety — não lock-in
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-uncertain-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤔 What's uncertain (open questions)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/cleitonsena/cleitonsena.github.io/edit/main/docs/concepts/agent-management-architecture.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="agent-management-architecture-soilytix-personal">Agent Management Architecture — Soilytix + Personal<a class="headerlink" href="#agent-management-architecture-soilytix-personal" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Reference document for AI agent department gestão em Soilytix + Cleiton's personal projects. Filed Apr 28 2026 antes do Reporting Agent V3 build (May Wk 1-2). Re-read antes de Phase 2 trigger (May Wk 3+) e antes Phase 3 review (Set-Out 2026).</p>
+</blockquote>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<p>Agent management <strong>não é uma coisa só</strong> — são <strong>8 layers</strong> com tools diferentes. Para Soilytix (multi-stakeholder, EU GDPR, low-budget) o stack ideal Apr 2026 é <strong>managed SaaS-first</strong> (não self-host até Cleiton evoluir DevOps comfort). Para personal track (xquads-evolved), os mesmos primitives reusam mas com governance light. <strong>3 sistemas docs/tasks ficam como are</strong>: Notion (strategic) + GitHub (technical) + Obsidian wiki (knowledge synthesis). Linear, Cursor, Paperclip, Multica off the table até signals concretos. Plano: ship Reporting Agent V3 May Wk 1-2 com observability wired desde Day 1, Phase 2 trigger May Wk 3+, 8-agent department target Out 2026.</p>
+<hr />
+<h2 id="os-8-layers-de-agent-management">🧬 Os 8 layers de agent management<a class="headerlink" href="#os-8-layers-de-agent-management" title="Permanent link">&para;</a></h2>
+<p>Antes de escolher tools, decompor o problema:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Layer</th>
+<th>O que decide</th>
+<th>Soilytix critical</th>
+<th>Personal critical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td><strong>Identity</strong></td>
+<td>Quem é cada agent? Que credenciais? Audit trail?</td>
+<td>⭐⭐⭐ (multi-stakeholder + GDPR)</td>
+<td>⭐ (só Cleiton)</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>Runtime</strong></td>
+<td>Onde corre? Cron? Interactive? VM?</td>
+<td>⭐⭐ (cron + reliability)</td>
+<td>⭐⭐ (interactive + experimental)</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>Memory</strong></td>
+<td>Lembra entre runs? Cross-session? Cross-agent?</td>
+<td>⭐⭐ (week-over-week reports)</td>
+<td>⭐⭐⭐ (continuidade pessoal)</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>Communication</strong></td>
+<td>Como fala com humanos? Outros agents? APIs?</td>
+<td>⭐⭐⭐ (Notion/Slack/HubSpot)</td>
+<td>⭐ (Slack/files)</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>Observability</strong></td>
+<td>O que fez, porquê, quanto custou, falhou?</td>
+<td>⭐⭐⭐ (cost discipline + audit Bruno)</td>
+<td>⭐⭐ (curiosidade + cost)</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>Coordination</strong></td>
+<td>Task queue. Assignment. Dependências.</td>
+<td>⭐⭐ (Phase 2+)</td>
+<td>⭐ (single-task usually)</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>Governance</strong></td>
+<td>Budgets. Approval gates. Kill switches.</td>
+<td>⭐⭐⭐ (Bruno visibility + €)</td>
+<td>⭐ (só carteira tua)</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>Skills/Capability</strong></td>
+<td>Reusable patterns. Prompt library. Tools.</td>
+<td>⭐⭐ (3 candidate skills filed)</td>
+<td>⭐⭐⭐ (xquads-squads existe)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Insight crítico:</strong> os tools NÃO competem entre si — endereçam <strong>layers diferentes</strong>:</p>
+<ul>
+<li><strong>Langfuse</strong> = Layer 4 (observability)</li>
+<li><strong>Paperclip</strong> = Layer 6 (governance) + parcial 5 (coordination)</li>
+<li><strong>Multica</strong> = Layer 5 (coordination) + parcial 7 (skills)</li>
+<li><strong>gstack</strong> (Garry Tan) = Layer 7 (skills) + parcial 1 (runtime patterns)</li>
+<li><strong>Notion</strong> = Layer 3 (communication) + parcial 5 (coordination)</li>
+<li><strong>gbrain</strong> = Layer 2 (memory)</li>
+<li><strong>LiteLLM</strong> = Layer 1 (runtime — model routing)</li>
+<li><strong>Linear</strong> = Layer 5 (coordination) + parcial 3 (comms)</li>
+<li><strong>Cursor</strong> = development tool, <strong>NÃO endereça nenhum layer agent management</strong></li>
+</ul>
+<p>Vais usar <strong>vários, não um.</strong></p>
+<hr />
+<h2 id="soilytix-track-multi-stakeholder-gdpr-revenue-critical">🌱 Soilytix track — multi-stakeholder, GDPR, revenue-critical<a class="headerlink" href="#soilytix-track-multi-stakeholder-gdpr-revenue-critical" title="Permanent link">&para;</a></h2>
+<h3 id="constraints-unicos">Constraints únicos<a class="headerlink" href="#constraints-unicos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>3 stakeholders:</strong> Cleiton (Head of Revenue), Bruno (CEO, results-driven, não dashboard-deep), Julien (CCO)</li>
+<li><strong>GDPR + CSRD (EU)</strong> — data residency hard requirement</li>
+<li><strong>Revenue-critical</strong> — failures = perda de €</li>
+<li><strong>Budget low-radar</strong> — &lt; €30/mo Phase 1+2 sob radar Bruno</li>
+<li><strong>Cleiton DevOps comfort:</strong> SaaS-only por agora, evolve para self-host Q3+</li>
+</ul>
+<h3 id="stack-final-managed-only-apr-2026-decision">Stack final (managed-only, Apr 2026 decision)<a class="headerlink" href="#stack-final-managed-only-apr-2026-decision" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Tool</th>
+<th>Cost/mês</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Identity</td>
+<td>Shared OAuth (Cleiton) + per-agent Slack apps Phase 2+</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>1 Runtime</td>
+<td>GHA cron (free) + LiteLLM as Python lib (no separate VM)</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>2 Memory</td>
+<td>Notion DB row "agents" + Cockpit Sheet</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>3 Communication</td>
+<td>Notion (Commercial Board) + Slack #soilytix-agent</td>
+<td>€0 (existing)</td>
+</tr>
+<tr>
+<td>4 Observability</td>
+<td><strong>Langfuse Cloud EU free tier</strong> (50k obs/mo)</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>5 Coordination Phase 1</td>
+<td>Notion DB</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>5 Coordination Phase 2+</td>
+<td><strong>Notion DB extended OR Linear free</strong> (250 issues)</td>
+<td>€0 → €8/mo Phase 3</td>
+</tr>
+<tr>
+<td>6 Governance</td>
+<td>Anthropic budget alert + monthly review email Bruno</td>
+<td>€0</td>
+</tr>
+<tr>
+<td>7 Skills</td>
+<td>GitHub <code>agents/skills/</code> markdown + xquads converted</td>
+<td>€0</td>
+</tr>
+<tr>
+<td><strong>API spend Phase 1</strong></td>
+<td>Anthropic + Gemini Flash</td>
+<td><strong>€2-15/mo</strong></td>
+</tr>
+<tr>
+<td><strong>API spend Phase 2</strong></td>
+<td>+ 2-3 agents</td>
+<td><strong>€30/mo</strong></td>
+</tr>
+<tr>
+<td><strong>API spend Phase 3</strong></td>
+<td>5+ agents</td>
+<td><strong>€60-80/mo</strong></td>
+</tr>
+<tr>
+<td><strong>API spend Phase 4</strong></td>
+<td>8 agents department</td>
+<td><strong>€100-150/mo</strong> (precisa Bruno report)</td>
+</tr>
+<tr>
+<td><strong>Hetzner VM (post Q3)</strong></td>
+<td>Quando Cleiton evolve DevOps comfort</td>
+<td>€4.5/mo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="output-design-bruno-friendly-q1-results-driven">Output design — Bruno-friendly (Q1: results-driven)<a class="headerlink" href="#output-design-bruno-friendly-q1-results-driven" title="Permanent link">&para;</a></h3>
+<p>Não é dashboard. É <strong>Slack DM weekly Friday + immediate alerts</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>📊 W19 Traction Friday Report
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ROAS: 4.2× (+0.5 vs W18) ✅
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Pipeline: +€7,500 weighted (3 new deals)
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Demos booked: 18 (+4)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Leads: 42 (-2, monitoring)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Top alert: nenhum esta semana
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Full report: &lt;Notion link&gt;
+</span></code></pre></div>
+<p>Quando algo anómalo (W3 spike-style):
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>🚨 LinkedIn CPL spike — €165 (+106% vs benchmark)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Action plan filed: &lt;link&gt;
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Hipóteses: fatigue OR attribution lag
+</span></code></pre></div></p>
+<h3 id="per-phase-timeline-compressed-apr-2026-decision">Per-phase timeline (compressed Apr 2026 decision)<a class="headerlink" href="#per-phase-timeline-compressed-apr-2026-decision" title="Permanent link">&para;</a></h3>
+<h4 id="phase-1-may-wk-1-2-ship-v3-start-narrative">Phase 1 — May Wk 1-2 — Ship V3 + start narrative<a class="headerlink" href="#phase-1-may-wk-1-2-ship-v3-start-narrative" title="Permanent link">&para;</a></h4>
+<p><strong>Build:</strong>
+- Reporting Agent V3 — single agent, Stack C managed
+- Anthropic Sonnet 4.6 (narrative) + Gemini 2.5 Flash (reads) + Haiku 4.5 (anomaly)
+- LiteLLM as Python lib (não VM separate)
+- GHA cron orchestration + Langfuse Cloud EU traces wired Day 1
+- Notion + Slack outputs</p>
+<p><strong>Cost real Phase 1:</strong> ~€2-5/mo</p>
+<p><strong>Narrative (build-in-public):</strong>
+- LinkedIn post sobre o build
+- Soilytix blog post (uses Blog Pipeline GHA shipped Apr 27)
+- Adicionar a <code>soilytix/content/blog-drafts/</code></p>
+<h4 id="phase-2-may-wk-3-jun-compress-jun-aug-original-plan">Phase 2 — May Wk 3 → Jun — Compress Jun-Aug original plan<a class="headerlink" href="#phase-2-may-wk-3-jun-compress-jun-aug-original-plan" title="Permanent link">&para;</a></h4>
+<p><strong>Build:</strong>
+- Agent #2: Reply Triage (Haiku 4.5 classify replies)
+- Agent #3: Lead Enrichment ou Content Reviewer
+- <strong>Custom Streamlit dashboard</strong> 1 day — agents alive + cost per agent + last-run + kill-button (replaces Multica/Paperclip self-host need)</p>
+<p><strong>Decision points:</strong>
+- Notion API rate limit começou a partir? → migrar tickets para Linear free
+- Senão → mantém Notion DB</p>
+<p><strong>Narrative:</strong> LinkedIn weekly + 1 podcast / livestream pitch</p>
+<h4 id="phase-3-jul-aug-scale-to-5-agents-framework-emerges">Phase 3 — Jul-Aug — Scale to 5 agents + framework emerges<a class="headerlink" href="#phase-3-jul-aug-scale-to-5-agents-framework-emerges" title="Permanent link">&para;</a></h4>
+<p><strong>Build:</strong>
+- Agents 4-5
+- Personal track parallel: xquads → SKILL.md migration
+- LiteLLM proxy passa Hetzner VM (€4.5/mo) quando Cleiton evolve B-level</p>
+<p><strong>Narrative + Framework:</strong>
+- "Soilytix Stack Open Sourced" — abstract patterns em framework reusable, MIT license, separate repo
+- Speaking gigs (DLG, Agritech meetups, AI conferences EU)</p>
+<h4 id="phase-4-set-out-8-agents-cement-authority">Phase 4 — Set-Out — 8 agents + cement authority<a class="headerlink" href="#phase-4-set-out-8-agents-cement-authority" title="Permanent link">&para;</a></h4>
+<p><strong>Build:</strong>
+- 6-8 agents production
+- Personal projects on same patterns (proves replicability)
+- Framework GitHub repo: 1k+ stars target</p>
+<p><strong>Narrative + Career:</strong>
+- 1-2 keynote talks / podcasts
+- Wiki público (subset cleitonOS-workspace)
+- Soilytix promo discussion (cabe a Bruno)</p>
+<hr />
+<h2 id="personal-track-solo-exploratorio-memory-rich">🧪 Personal track — solo, exploratório, memory-rich<a class="headerlink" href="#personal-track-solo-exploratorio-memory-rich" title="Permanent link">&para;</a></h2>
+<h3 id="constraints-unicos-vs-soilytix">Constraints únicos vs Soilytix<a class="headerlink" href="#constraints-unicos-vs-soilytix" title="Permanent link">&para;</a></h3>
+<ul>
+<li>1 stakeholder (Cleiton)</li>
+<li>Sem GDPR pressure</li>
+<li>Failures = oportunidade aprender</li>
+<li>Budget pessoal flexível</li>
+<li><strong>Existing investment:</strong> xquads-squads (13 squads markdown), ti-na-europa, autoresearch-mlx, Obsidian, MCP custom servers</li>
+</ul>
+<h3 id="asset-escondido-xquads-squads">Asset escondido — xquads-squads<a class="headerlink" href="#asset-escondido-xquads-squads" title="Permanent link">&para;</a></h3>
+<p>Tens 13 squads markdown em <code>xquads-squads/</code>. Hoje são static documents. <strong>A migração óbvia:</strong> transformar em <strong>executable SKILL.md format</strong> estilo gstack:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nn">---</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hormozi-offer-stress-test</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apply Hormozi value equation framework to stress-test an offer</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">allowed-tools</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Read</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Write</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">AskUserQuestion</span><span class="p p-Indicator">]</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">triggers</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;stress</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">this</span><span class="nv"> </span><span class="s">offer&quot;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;is</span><span class="nv"> </span><span class="s">this</span><span class="nv"> </span><span class="s">offer</span><span class="nv"> </span><span class="s">good&quot;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nn">---</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1">## Forcing questions</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nt">1. Dream Outcome</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">que resultado específico cliente atinge?</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nt">2. Perceived Likelihood</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">que evidência tens que isto vai funcionar?</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nt">3. Time Delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quanto tempo entre purchase e value?</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nt">4. Effort &amp; Sacrifice</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">o quanto cliente tem de fazer?</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1">## Anti-patterns</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Vague outcomes (&quot;save time&quot;)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Hypothetical testimonials</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Claims without proof</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1">## Output</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="l l-Scalar l-Scalar-Plain">Score 0-10 + 3 specific revision suggestions.</span>
+</span></code></pre></div>
+<p>Resultado: tens <strong>personal gstack equivalent</strong> com tua wisdom curada.</p>
+<h3 id="stack-por-layer-personal">Stack por layer — Personal<a class="headerlink" href="#stack-por-layer-personal" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Tool</th>
+<th>Por quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Identity</td>
+<td>Cleiton OAuth + 1 GitHub PAT + 1 Slack PAT</td>
+<td>Single-user, não vale per-agent</td>
+</tr>
+<tr>
+<td>1 Runtime</td>
+<td>Claude Code interactive (default) + GHA cron</td>
+<td>Interactive para experimentação, GHA recorring</td>
+</tr>
+<tr>
+<td>2 Memory</td>
+<td>gbrain (Garry Tan) cross-machine + Obsidian wiki</td>
+<td>Cleiton M4 + Mac empresa partilham contexto</td>
+</tr>
+<tr>
+<td>3 Communication</td>
+<td>Telegram bot @StealthOps + Obsidian</td>
+<td>Mobile + deep work</td>
+</tr>
+<tr>
+<td>4 Observability</td>
+<td>Langfuse Cloud EU free (compartilhada com Soilytix se quiseres)</td>
+<td>Free, EU, dual-purpose</td>
+</tr>
+<tr>
+<td>5 Coordination</td>
+<td>xquads-squads/ + GitHub issues per project</td>
+<td>Não vale Multica para 1 user</td>
+</tr>
+<tr>
+<td>6 Governance</td>
+<td>Anthropic console budget alert mensal</td>
+<td>Disciplina mental, não tool</td>
+</tr>
+<tr>
+<td>7 Skills</td>
+<td>xquads → SKILL.md format + clone gstack patterns</td>
+<td>13 squads → executable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="action-concreta-personal-proximas-4-semanas-post-soilytix-phase-1">Action concreta Personal (próximas 4 semanas, post-Soilytix Phase 1)<a class="headerlink" href="#action-concreta-personal-proximas-4-semanas-post-soilytix-phase-1" title="Permanent link">&para;</a></h3>
+<p>Não competes com May Wk 1-2 (Soilytix prioridade). Personal track arranca <strong>May Wk 3+</strong>:</p>
+<h4 id="week-1-personal-30-60-min-weekend">Week 1 personal (~30-60 min weekend)<a class="headerlink" href="#week-1-personal-30-60-min-weekend" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Clone <code>garrytan/gstack</code> localmente</li>
+<li>Estudar 3 SKILL.md (office-hours, plan-ceo-review, design-shotgun)</li>
+<li>Pick 1 xquad — recomendo <strong>hormozi-squad</strong> (aplicável a Soilytix copy também)</li>
+<li>Converter em <code>xquads/skills/hormozi-offer-stress-test/SKILL.md</code></li>
+<li>Test: invocar via Claude Code, verificar framework é seguido</li>
+</ul>
+<h4 id="week-2-3-personal">Week 2-3 personal<a class="headerlink" href="#week-2-3-personal" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Converter 4-5 squads top-priority</li>
+<li>Recommended order:</li>
+<li>hormozi-squad (offer/copy review)</li>
+<li>copy-squad (LinkedIn posts, outreach)</li>
+<li>claude-code-mastery (meta — agents melhores)</li>
+<li>advisory-board (decision-making)</li>
+<li>storytelling (content)</li>
+</ul>
+<h4 id="week-4-personal">Week 4 personal<a class="headerlink" href="#week-4-personal" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Setup gbrain self-host (Hetzner VM mesma instance se Cleiton evolved B-level, ou separate)</li>
+<li>Cross-machine memory: M4 home + Mac empresa share contexto</li>
+</ul>
+<h4 id="mes-2-3-jun-jul">Mês 2-3 (Jun-Jul)<a class="headerlink" href="#mes-2-3-jun-jul" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Ti-na-europa: aplicar mesmo pattern — <code>agents/</code> folder skill library</li>
+<li>Telegram bot: wire skills via Claude Code subprocess (já tens shadow-mode)</li>
+</ul>
+<hr />
+<h2 id="primitives-partilhados-build-once-use-both">🤝 Primitives partilhados — build once, use both<a class="headerlink" href="#primitives-partilhados-build-once-use-both" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Soilytix usa para</th>
+<th>Personal usa para</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hetzner CX22 VM €4.5/mês</strong> (post Q3)</td>
+<td>LiteLLM dedicated + Langfuse self-host</td>
+<td>gbrain server + same VM</td>
+</tr>
+<tr>
+<td><strong>Langfuse Cloud EU</strong> (Phase 1-2)</td>
+<td>Reporting Agent traces + cost</td>
+<td>xquads runs traces</td>
+</tr>
+<tr>
+<td><strong>gbrain memory</strong> (Q3+)</td>
+<td>Cross-machine Cleiton state</td>
+<td>Memory cross-session entre projetos</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions free tier</strong></td>
+<td>BD/PR/Blog/Cockpit pipelines</td>
+<td>Personal cron (research, content gen)</td>
+</tr>
+<tr>
+<td><strong>Anthropic API key Cleiton pessoal</strong></td>
+<td>Phase 1 V3 (€5-7/mo)</td>
+<td>Personal experiments</td>
+</tr>
+<tr>
+<td><strong>Skill library pattern markdown SKILL.md</strong></td>
+<td>Soilytix <code>agents/skills/icp-stress-test/SKILL.md</code></td>
+<td>xquads transformados</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Big insight:</strong> mesma VM Hetzner serve ambos quando Cleiton evolui B-level (Q3+). €4.5/mês cobre LiteLLM + Langfuse self-host + gbrain. Personal e Soilytix compartilham <strong>infrastructure</strong>, mantêm <strong>identity separate</strong> (databases isolados, secrets diferentes).</p>
+<hr />
+<h2 id="documentation-stack-3-systems-naturais">📚 Documentation stack — 3 systems naturais<a class="headerlink" href="#documentation-stack-3-systems-naturais" title="Permanent link">&para;</a></h2>
+<p><strong>Linear off the table.</strong> Cursor não cabe. <strong>Stack actual stays:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Strategic / Business / Tickets
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    └─→ Notion (Commercial Board)
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>         tasks, decisions, ICP analysis, deal pipelines, OKRs
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Technical / Code / Stack
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    └─→ GitHub (repo READMEs, wikis)
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>         soilytix-revenue-automation/README.md
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>         per-repo docs, commit-history-driven
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Knowledge / Synthesis / People / Concepts
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    └─→ Obsidian wiki (cleitonOS-workspace/wiki/)
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>         frameworks, gurus, concepts, master-map
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>         Karpathy-style 2nd brain
+</span></code></pre></div>
+<p><strong>Cada um tem natural fit:</strong>
+- Bruno (CEO) lê Notion — vê pipeline, decisões, briefs
+- Engineers lêem GitHub READMEs — vê deploy, contribuir, debug
+- Cleiton sintetiza em Obsidian wiki — synthesise across all sources</p>
+<p><strong>Triggers para revisitar Linear (Out 2026+):</strong>
+- Notion API começar a partir agents (rate limit hits weekly)
+- Equipa cresce 5+ people active em tickets daily
+- Velocity-driven workflows (sprints rigorous) em vez de strategic-driven</p>
+<hr />
+<h2 id="tools-considered-rejected-apr-2026">❌ Tools considered + rejected (Apr 2026)<a class="headerlink" href="#tools-considered-rejected-apr-2026" title="Permanent link">&para;</a></h2>
+<h3 id="cursor-cursorcom">Cursor (cursor.com)<a class="headerlink" href="#cursor-cursorcom" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Categoria:</strong> AI-powered IDE + cloud agents para coding</li>
+<li><strong>Por que rejeitado:</strong> wrong layer. Não endereça layers 0-7 agent management. Switching cost real (Cleiton já tem Claude Code CLI muscle memory). No EU residency stated → GDPR risk se touches customer data.</li>
+<li><strong>Quando revisitar:</strong> Bruno (CEO) ou future eng hire para product code, não Cleiton GTM ops.</li>
+</ul>
+<h3 id="paperclip-papercliping">Paperclip (paperclip.ing)<a class="headerlink" href="#paperclip-papercliping" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Categoria:</strong> Layer 6 governance + parcial 5 coordination, "AI agents as employees" metaphor</li>
+<li><strong>Por que rejeitado AGORA:</strong> self-host first → Cleiton C-level DevOps comfort, não vai correr VM Phase 1+2.</li>
+<li><strong>Quando revisitar:</strong> Q3+ quando Cleiton evolve B-level OR Paperclip lançar Cloud SaaS</li>
+</ul>
+<h3 id="multica-multicaai">Multica (multica.ai)<a class="headerlink" href="#multica-multicaai" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Categoria:</strong> Layer 5 coordination + parcial 7 skills</li>
+<li><strong>Por que rejeitado AGORA:</strong> mesma razão que Paperclip — self-host required.</li>
+<li><strong>Quando revisitar:</strong> Q3+ ou Cloud lançar</li>
+</ul>
+<h3 id="linear-linearapp">Linear (linear.app)<a class="headerlink" href="#linear-linearapp" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Categoria:</strong> Layer 5 coordination (tickets) + parcial 3 comms</li>
+<li><strong>Por que rejeitado AGORA:</strong> migration cost Notion → Linear = sprint inteiro. Bruno + Julien já lêem Notion. Notion API rate limit ainda não nos parteu.</li>
+<li><strong>Quando revisitar:</strong> Out 2026+ se Notion API rate limit hits weekly OR equipa cresce 5+ users</li>
+</ul>
+<h3 id="bedrock-agentcore-aws">Bedrock AgentCore (AWS)<a class="headerlink" href="#bedrock-agentcore-aws" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Por que rejeitado:</strong> lock-in AWS desnecessário. Não estamos em AWS.</li>
+</ul>
+<h3 id="microsoft-copilot-studio">Microsoft Copilot Studio<a class="headerlink" href="#microsoft-copilot-studio" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Por que rejeitado:</strong> $200/mo min tenant. Caro. Lock-in Microsoft.</li>
+</ul>
+<h3 id="openai-agent-builder-swarm">OpenAI Agent Builder / Swarm<a class="headerlink" href="#openai-agent-builder-swarm" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Por que rejeitado:</strong> lock-in OpenAI. Stack já é Anthropic + Google + Meta (LiteLLM router).</li>
+</ul>
+<hr />
+<h2 id="first-3-actions-to-start-immediately-may-wk-1">🎯 First 3 actions to start IMMEDIATELY (May Wk 1)<a class="headerlink" href="#first-3-actions-to-start-immediately-may-wk-1" title="Permanent link">&para;</a></h2>
+<h3 id="1-setup-langfuse-cloud-account-eu-region-15-min">1. Setup Langfuse Cloud account EU region (15 min)<a class="headerlink" href="#1-setup-langfuse-cloud-account-eu-region-15-min" title="Permanent link">&para;</a></h3>
+<ul>
+<li>https://cloud.langfuse.com — escolher EU region durante signup</li>
+<li>Get API keys + project ID</li>
+<li>Add <code>LANGFUSE_PUBLIC_KEY</code> + <code>LANGFUSE_SECRET_KEY</code> GHA secrets</li>
+<li><strong>Wire em Day 1 do Reporting Agent V3 build</strong> (não retrofit depois)</li>
+</ul>
+<h3 id="2-setup-google-ai-studio-free-tier-gemini-api-10-min">2. Setup Google AI Studio free tier Gemini API (10 min)<a class="headerlink" href="#2-setup-google-ai-studio-free-tier-gemini-api-10-min" title="Permanent link">&para;</a></h3>
+<ul>
+<li>https://aistudio.google.com — free tier generoso</li>
+<li>Get API key</li>
+<li>Add <code>GOOGLE_AI_API_KEY</code> GHA secret</li>
+<li>LiteLLM Python lib config: route reads através disto</li>
+</ul>
+<h3 id="3-decide-narrative-cadence-10-min-mental-commitment">3. Decide narrative cadence (10 min mental + commitment)<a class="headerlink" href="#3-decide-narrative-cadence-10-min-mental-commitment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>LinkedIn post: weekly Friday build-in-public, 1 specific learning per week</li>
+<li>Soilytix blog: monthly comprehensive case study (uses Blog Pipeline GHA)</li>
+<li>Wiki public excerpt: quando 3-month milestone (Jul)</li>
+</ul>
+<p><strong>Total setup time:</strong> 35 min real work. Tudo manual, sem Hetzner, sem Docker.</p>
+<hr />
+<h2 id="reality-check-honesto-q5-success-em-6-meses">⚠️ Reality check honesto — Q5 success em 6 meses<a class="headerlink" href="#reality-check-honesto-q5-success-em-6-meses" title="Permanent link">&para;</a></h2>
+<p>Cleiton's stretch goal Out 2026: <strong>8 agents + tech authority + C-level promotion + internet authority + rich</strong>.</p>
+<p>Probability per outcome:</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Probability achievable em 6 meses</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8 agents running</td>
+<td><strong>65%</strong></td>
+<td>Stretch mas possível com aggressive timeline + framework reuse. Mais provável 5-6 agents reais + 2-3 stub.</td>
+</tr>
+<tr>
+<td>Tech authority on AI-native</td>
+<td><strong>40%</strong></td>
+<td>Depende de <strong>content discipline</strong> (1 LinkedIn post/week minimum). Sem isso, zero.</td>
+</tr>
+<tr>
+<td>C-level promotion Soilytix</td>
+<td><strong>30%</strong></td>
+<td>Depende Bruno calibration + Soilytix revenue trajectory + funding round. Não controlas tudo.</td>
+</tr>
+<tr>
+<td>Internet authority</td>
+<td><strong>35%</strong></td>
+<td>6 meses é curto. Precisa 1-2 viral pieces + sustained content.</td>
+</tr>
+<tr>
+<td>Rich from personal</td>
+<td><strong>15%</strong></td>
+<td>6 meses é cedo demais para revenue real de personal projects. 18-24 meses mais realista.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Honest framing:</strong> ambition is healthy AND <strong>all simultaneously em 6 meses é unrealistic</strong>. <strong>Pick 2-3 prioritários:</strong></p>
+<ol>
+<li><strong>8 agents Soilytix</strong> (control)</li>
+<li><strong>Tech authority</strong> (controlable via content discipline)</li>
+<li><strong>C-level / wealth</strong> = downstream effects, deixa happen naturally</li>
+</ol>
+<hr />
+<h2 id="migration-safety-nao-lock-in">🔓 Migration safety — não lock-in<a class="headerlink" href="#migration-safety-nao-lock-in" title="Permanent link">&para;</a></h2>
+<p>Princípios para escolhas hoje não viram prisão amanhã:</p>
+<ol>
+<li><strong>Skills em markdown SKILL.md format</strong> — portável entre Claude Code, gstack, Multica, custom runtime</li>
+<li><strong>Memory em Postgres standard</strong> — gbrain SQLite/Postgres simples, exportável</li>
+<li><strong>Traces em OpenTelemetry format</strong> — Langfuse exporta, qualquer observability importa</li>
+<li><strong>Notion dados exportáveis</strong> — Markdown export nativo</li>
+<li><strong>Tudo self-host via Docker Compose (eventual)</strong> — VM swap não corrompe stack</li>
+</ol>
+<p><strong>Anti-pattern a evitar:</strong> adoptar SaaS que só exporta para si mesmo (Bedrock AgentCore proprietary state, OpenAI Agent Builder schemas opaque).</p>
+<hr />
+<h2 id="whats-uncertain-open-questions">🤔 What's uncertain (open questions)<a class="headerlink" href="#whats-uncertain-open-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Paperclip vs Multica long-term winner</strong>: ambos lançados Apr 2026 (novos). Pode ser que ambos morram e algo melhor emerja Q3.</li>
+<li><strong>gbrain stability</strong>: 12k★ mas Garry Tan move-fast. Pin versão concreta + backups disciplined.</li>
+<li><strong>Soilytix Phase 3 reality</strong>: o "8-agent department" é vision. Phase 2 (3-5 agents) pode descobrir que 4 chega. Não over-build.</li>
+<li><strong>Migration cost xquads → SKILL.md</strong>: estimei 30 min/squad, pode ser 2h se queres polish nível-gstack. Comece com 1, calibra.</li>
+<li><strong>Notion as Layer 3 tem teto</strong>: 3 req/s API rate limit vai partir aos 5+ agents. Pode forçar migration para Linear cedo.</li>
+</ol>
+<hr />
+<h2 id="cross-links">Cross-links<a class="headerlink" href="#cross-links" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Wiki: <a href="../thin-harness-fat-skills/"><code>thin-harness-fat-skills</code></a> — pattern arquitectural por trás</li>
+<li>Wiki: <a href="../ai-native-company/"><code>ai-native-company</code></a> — Diana YC framework (closed loops, queryable org)</li>
+<li>Wiki: <a href="../20x-companies/"><code>20x-companies</code></a> — case studies validating approach</li>
+<li>Wiki: <a href="../../tools/g-stack/"><code>tools/g-stack</code></a> — Garry Tan implementation</li>
+<li>Wiki: <a href="../tech/REPORTING-AGENT-V3.md"><code>tech/REPORTING-AGENT-V3</code></a> — concrete Phase 1 build spec</li>
+<li>Wiki: <a href="../../people/garry-tan/"><code>people/garry-tan/profile</code></a></li>
+<li>Notion: <a href="https://www.notion.so/34bf18407014818481bae5bb6b164fea">SOI-CONSTITUTION-00</a> — SDD adoption ticket</li>
+<li>Notion: <a href="https://www.notion.so/34ef184070148143bce7ef69adb7cfb7">MKT-OPS-04 Reporting Agent V3</a> — build tracker</li>
+</ul>
+<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Conversation Cleiton ↔ Claude Code, Apr 28 2026 (deep planning session)</li>
+<li>Subagent research Apr 28 2026 — landscape Apr 2026 + free tier verification Perplexity</li>
+<li>Direct WebFetch paperclip.ing + multica.ai + cursor.com/pricing Apr 28 2026</li>
+<li>knowledge/tech/2026-04-28-* (3 YouTube videos: Garry Tan, Diana YC, "20X companies")</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Cleiton Sena · Content under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/cleitonsena" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://x.com/cleitonsenaes" target="_blank" rel="noopener" title="X (Twitter)" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://linkedin.com/in/cleitonsena" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
