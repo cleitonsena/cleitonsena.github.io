@@ -7,7 +7,7 @@ hide:
 
 # Cleiton Sena — Public Wiki
 
-**AI-Native Revenue Architect · Fractional · B2B SaaS**
+**AI-Native Revenue Architect · Fractional · B2B SaaS · 🇧🇷 🇪🇸 🇩🇪**
 
 I design and build AI agent departments for B2B SaaS revenue teams. Currently fractional at [Soilytix](https://soilytix.com) — running revenue ops + building the agent system that automates them, on a managed-SaaS-only stack (Anthropic + Gemini + Langfuse). EU agritech soil intelligence. €0→€600k ARR plan.
 
