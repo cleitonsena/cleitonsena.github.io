@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://cleitonsena.github.io/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/concepts/20x-companies/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/concepts/agent-management-architecture/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/concepts/ai-native-company/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/concepts/thin-harness-fat-skills/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://cleitonsena.github.io/notes/wiki-publish-smoke-test/</loc>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/people/garry-tan/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/tech/reporting-agent-v3/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://cleitonsena.github.io/tools/g-stack/</loc>
-         <lastmod>2026-04-29</lastmod>
+         <lastmod>2026-05-07</lastmod>
     </url>
 </urlset>
