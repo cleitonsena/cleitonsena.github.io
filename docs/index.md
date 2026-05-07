@@ -47,7 +47,7 @@ This wiki is the public-safe subset of my internal "second brain" (Karpathy patt
 | [📬 Substack](https://substack.com/@cleitonsena) | Bi-weekly long-form newsletter (Sun) |
 | [🐦 X.com @cleitonsenaes](https://x.com/cleitonsenaes) | Daily build-log threads |
 | [🦋 Bluesky](https://bsky.app/profile/cleitonsena.bsky.social) | Cross-post X (auto) |
-| [💼 LinkedIn](https://linkedin.com/in/cleitonsena) | Weekly Friday build-in-public anchor post |
+| [💼 LinkedIn](https://linkedin.com/in/cleiton-sena) | Weekly Friday build-in-public anchor post |
 | [🐙 GitHub](https://github.com/cleitonsena) | Code, this wiki source |
 | [📝 Dev.to](https://dev.to/cleitonsena) | Cross-post technical Substack pieces |
 
