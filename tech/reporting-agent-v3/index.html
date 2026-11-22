@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1992,9 +1992,9 @@ With router (60-70% of read+classify load on Gemini/Groq/Codestral, narrative on
 <li>Create project "soilytix-agents"</li>
 <li>Get API keys: <code>LANGFUSE_PUBLIC_KEY</code> + <code>LANGFUSE_SECRET_KEY</code> + <code>LANGFUSE_HOST</code> (<code>https://cloud.langfuse.com</code>)</li>
 <li>Add as GHA secrets in <code>Soilytix/soilytix-revenue-automation</code>:
-  <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_PUBLIC_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">&quot;pk-lf-...&quot;</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_SECRET_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">&quot;sk-lf-...&quot;</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_HOST<span class="w"> </span>--body<span class="w"> </span><span class="s2">&quot;https://cloud.langfuse.com&quot;</span>
+  <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_PUBLIC_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">"pk-lf-..."</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_SECRET_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">"sk-lf-..."</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>LANGFUSE_HOST<span class="w"> </span>--body<span class="w"> </span><span class="s2">"https://cloud.langfuse.com"</span>
 </span></code></pre></div></li>
 <li>Verify: dashboard <code>https://cloud.langfuse.com</code> opens with empty project — ready to receive traces</li>
 </ul>
@@ -2004,12 +2004,12 @@ With router (60-70% of read+classify load on Gemini/Groq/Codestral, narrative on
 <li>Sign in <code>cleitonsenaa@gmail.com</code> (existing)</li>
 <li>Create API key (free tier — 60 req/min, plenty for Phase 1)</li>
 <li>Test:
-  <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span><span class="s2">&quot;https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIza...&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;contents&quot;:[{&quot;parts&quot;:[{&quot;text&quot;:&quot;hello&quot;}]}]}&#39;</span>
+  <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span><span class="s2">"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIza..."</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"contents":[{"parts":[{"text":"hello"}]}]}'</span>
 </span></code></pre></div></li>
 <li>Add as GHA secret:
-  <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>GOOGLE_AI_API_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">&quot;AIza...&quot;</span>
+  <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gh<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>GOOGLE_AI_API_KEY<span class="w"> </span>--body<span class="w"> </span><span class="s2">"AIza..."</span>
 </span></code></pre></div></li>
 </ul>
 <h3 id="3-narrative-cadence-committed-apr-29-10-min-mental-commitment">3. Narrative cadence — committed Apr 29 (10 min mental commitment ✓)<a class="headerlink" href="#3-narrative-cadence-committed-apr-29-10-min-mental-commitment" title="Permanent link">&para;</a></h3>
@@ -2390,10 +2390,10 @@ With router (60-70% of read+classify load on Gemini/Groq/Codestral, narrative on
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
