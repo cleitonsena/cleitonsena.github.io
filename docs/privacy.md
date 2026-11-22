@@ -6,13 +6,13 @@ hide:
 
 # Privacy Policy
 
-**Toffee Tabby Pin Publisher**. Effective date: 23 November 2026.
+**MySandboxBooks Pin Publisher**. Effective date: 23 November 2026.
 
-This policy covers Toffee Tabby Pin Publisher, a private script run by Cleiton Sena (the owner of the Toffee Tabby coloring book collection). It is not a public app and has no other users.
+This policy covers MySandboxBooks Pin Publisher, a private script run by Cleiton Sena, the owner of MySandboxBooks (coloring books, part of the coloring-book-factory project). It is not a public app and has no other users.
 
 ## What the app does
 
-The app publishes pins for my own coloring books to my own Pinterest business account, and reads my own boards to choose where each pin goes. It is used only by me, on my own computer, with my own Pinterest account.
+The app publishes pins for my own MySandboxBooks coloring books to my own Pinterest business account, and reads my own boards to choose where each pin goes. It is used only by me, on my own computer, with my own Pinterest account.
 
 ## What data it uses
 
@@ -36,4 +36,4 @@ If this policy changes, the new version will be published on this page with a ne
 
 ## Contact
 
-Questions about this policy: [github.com/cleitonsena](https://github.com/cleitonsena) or [LinkedIn](https://www.linkedin.com/in/cleiton-sena/).
+Questions about this policy: [github.com/cleitonsena](https://github.com/cleitonsena) or [LinkedIn](https://www.linkedin.com/in/cleiton-sena/) or Instagram [@mysandbox.dev](https://www.instagram.com/mysandbox.dev/).
